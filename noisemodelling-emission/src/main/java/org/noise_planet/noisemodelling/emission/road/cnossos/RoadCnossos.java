@@ -29,8 +29,9 @@ import static org.noise_planet.noisemodelling.emission.utils.Utils.*;
  */
 
 public class RoadCnossos {
-    private static JsonNode RoadCnossos_2015 = parse(RoadCnossos.class.getResourceAsStream("RoadCnossos_2015.json")); // old coefficients in 2015 amendments
-    private static JsonNode cnossosData2020 =parse(RoadCnossos.class.getResourceAsStream("RoadCnossos_2020.json")); // new coefficients in 2020 amendments
+    private static JsonNode cnossos2015 = parse(RoadCnossos.class.getResourceAsStream("RoadCnossos_2015.json")); // old coefficients in 2015 amendments
+    private static JsonNode cnossos2020 =parse(RoadCnossos.class.getResourceAsStream("RoadCnossos_2020.json")); // new coefficients in 2020 amendments
+    private static final JsonNode hh = parse(RoadCnossos.class.getResourceAsStream("Roads_HH.json"));
 
     private static JsonNode parse(InputStream inputStream) {
         try {
@@ -43,14 +44,22 @@ public class RoadCnossos {
 
     /**
      * Get the CNOSSOS coefficients from a specific file version.
-     * @param fileVersion 1=RailwayCnossosEU_2020.json; other = RailwayCnossosSNCF_2021.json
+     * @param version "cnossos2015", "cnossos2020", or "hh"
      * @return
      */
-    public static JsonNode getCnossosData(int fileVersion) {
-        if (fileVersion == 1) {
-            return RoadCnossos_2015; // old coefficients in 2015 amendments
-        } else {
-            return cnossosData2020; // new coefficients in 2020 amendments
+    public static JsonNode getCnossosData(String version) {
+        switch (version.toLowerCase()) {
+            case "cnossos2015":
+                return cnossos2015;
+            case "cnossos2020":
+                return cnossos2020;
+            case "hh":
+                return hh;
+            default:
+                throw new IllegalArgumentException(
+                    "Unknown CNOSSOS version: " + version +
+                    ". Acceptable values are: 'cnossos2015', 'cnossos2020', 'hh'."
+                );
         }
     }
 
@@ -60,10 +69,10 @@ public class RoadCnossos {
      * @param vehCat Vehicle category (1,2,3,4a,4b,5)
      * @param roadSurface Road surface identifier - The list is given in the following file : src/main/resources/org/noise_planet/noisemodelling/emission/RoadCnossos_2020.json
      *                    search for NL01 or FR_R2 for example
-     * @param fileVersion 2015 or 2019 coefficients version
+     * @param coefficientVersion 2015 or 2019 coefficients version
      * @return a Road Coeff
      */
-    public static Double getA_RoadSurfaceCoeff(int Freq, String vehCat, String roadSurface, int fileVersion) throws IOException {
+    public static Double getA_RoadSurfaceCoeff(int Freq, String vehCat, String roadSurface, String coefficientVersion) throws IOException {
         int Freq_ind;
         switch (Freq) {
             case 63:
@@ -93,8 +102,8 @@ public class RoadCnossos {
             default:
                 Freq_ind = 0;
         }
-        if (getCnossosData(fileVersion).get("roads").get(roadSurface)==null)  throw new IOException("Error : the pavement "+roadSurface + " doesn't exist in the database.");
-        return getCnossosData(fileVersion).get("roads").get(roadSurface).get("ref").get(vehCat).get("spectrum").get(Freq_ind).doubleValue();
+        if (getCnossosData(coefficientVersion).get("roads").get(roadSurface)==null)  throw new IOException("Error : the pavement "+roadSurface + " doesn't exist in the database.");
+        return getCnossosData(coefficientVersion).get("roads").get(roadSurface).get("ref").get(vehCat).get("spectrum").get(Freq_ind).doubleValue();
     }
 
     /**
@@ -102,33 +111,33 @@ public class RoadCnossos {
      * @param vehCat Vehicle category (1,2,3,4a,4b,5)
      * @param roadSurface Road surface identifier - The list is given in the following file : src/main/resources/org/noise_planet/noisemodelling/emission/RoadCnossos_2020.json
      *                    search for NL01 or FR_R2 for example
-     * @param fileVersion 2015 or 2019 coefficients version
+     * @param coefficientVersion 2015 or 2019 coefficients version
      * @return a Road Coeff
      */
-    public static Double getB_RoadSurfaceCoeff(String vehCat, String roadSurface, int fileVersion) { //CNOSSOS-EU_Road_Catalogue_Final - 01April2014.xlsx - https://circabc.europa.eu/webdav/CircaBC/env/noisedir/Library/Public/cnossos-eu/Final_methods%26software
-        return getCnossosData(fileVersion).get("roads").get(roadSurface).get("ref").get(vehCat).get("ßm").doubleValue();
+    public static Double getB_RoadSurfaceCoeff(String vehCat, String roadSurface, String coefficientVersion) { //CNOSSOS-EU_Road_Catalogue_Final - 01April2014.xlsx - https://circabc.europa.eu/webdav/CircaBC/env/noisedir/Library/Public/cnossos-eu/Final_methods%26software
+        return getCnossosData(coefficientVersion).get("roads").get(roadSurface).get("ref").get(vehCat).get("ßm").doubleValue();
     }
 
     /**
      * Get "Cr" coefficient related to the decrease in rolling noise near an intersection (due to deceleration and acceleration phases).
      * @param vehCat Vehicle category (1,2,3,4a,4b,5)
      * @param k k=1 Crossing lights, k=2 roundabout
-     * @param fileVersion 2015 or 2019 coefficients version
+     * @param coefficientVersion 2015 or 2019 coefficients version
      * @return Cr coefficient
      */
-    public static double getCr(String vehCat, int k, int fileVersion) {
-        return getCnossosData(fileVersion).get("vehicles").get(vehCat).get(k == 1 ? "crossing" : "roundabout").get("cr").doubleValue();
+    public static double getCr(String vehCat, int k, String coefficientVersion) {
+        return getCnossosData(coefficientVersion).get("vehicles").get(vehCat).get(k == 1 ? "crossing" : "roundabout").get("cr").doubleValue();
     }
 
     /**
      * Get "Cp" coefficient related to the increase in propulsion noise near an intersection (due to deceleration and acceleration phases).
      * @param vehCat Vehicle category
      * @param k k=1 Crossing lights, k=2 roundabout
-     * @param fileVersion 2015 or 2019 coefficients version
+     * @param coefficientVersion 2015 or 2019 coefficients version
      * @return Cp coefficient
      */
-    public static double getCp(String vehCat, int k, int fileVersion) {
-        return getCnossosData(fileVersion).get("vehicles").get(vehCat).get(k == 1 ? "crossing" : "roundabout").get("cp").doubleValue();
+    public static double getCp(String vehCat, int k, String coefficientVersion) {
+        return getCnossosData(coefficientVersion).get("vehicles").get(vehCat).get(k == 1 ? "crossing" : "roundabout").get("cp").doubleValue();
     }
 
     /**
@@ -138,7 +147,7 @@ public class RoadCnossos {
      * @param vehicleCategory 1,2,3,4a,4b..
      * @return Vehicle emission values coefficients
      */
-    public static Double getCoeff(String coeff, int freq, String vehicleCategory, int coeffVer) {
+    public static Double getCoeff(String coeff, int freq, String vehicleCategory, String coeffVer) {
         int Freq_ind;
         switch (freq) {
             case 63:
@@ -192,16 +201,16 @@ public class RoadCnossos {
      * @param Pm_stud proportion of vehicle equipped of studded tyres
      * @param Ts_stud number of months they are equipped with studded tires
      * @param freq Frequency in Hz (octave band)
-     * @param fileVersion
+     * @param coefficientVersion
      * @return
      */
     private static Double getDeltaStuddedTyres(RoadCnossosParameters roadCnossosParameters, double Pm_stud, double Ts_stud,
-                                               int freq, int fileVersion, double vRef) throws IOException {
+                                               int freq, String coefficientVersion, double vRef) throws IOException {
         double speed = roadCnossosParameters.getSpeedLv();
         double ps = Pm_stud * Ts_stud / 12;  // Eq. 2.2.7 yearly average proportion of vehicles equipped with studded tyres
         speed = (speed >= 90) ? 90 : speed;
         speed = (speed <= 50) ? 50 : speed;
-        double deltastud = getNoiseLvl(getCoeff("a", freq, "1", fileVersion), getCoeff("b", freq, "1", fileVersion), speed, vRef);
+        double deltastud = getNoiseLvl(getCoeff("a", freq, "1", coefficientVersion), getCoeff("b", freq, "1", coefficientVersion), speed, vRef);
         return 10 * Math.log10((1 - ps) + ps * Math.pow(10, deltastud / 10)); // Eq. 2.2.8
         // Only for light vehicles (Eq.2.2.9)
     }
@@ -293,7 +302,7 @@ public class RoadCnossos {
         final double Junc_dist = roadCnossosParameters.getJunc_dist();
         final int Junc_type = roadCnossosParameters.getJunc_type();
         final String roadSurface = roadCnossosParameters.getRoadSurface();
-        final int coeffVer = roadCnossosParameters.getFileVersion();
+        final String coeffVer = roadCnossosParameters.getCoefficientVersion();
         double vRef = 70.;
 
         /**
