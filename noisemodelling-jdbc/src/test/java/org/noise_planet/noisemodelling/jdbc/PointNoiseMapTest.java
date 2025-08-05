@@ -242,7 +242,7 @@ public class PointNoiseMapTest {
 
             LDENConfig ldenConfig = new LDENConfig(LDENConfig.INPUT_MODE.INPUT_MODE_LW_DEN);
             ldenConfig.setExportRaysMethod(LDENConfig.ExportRaysMethods.TO_MEMORY);
-            ldenConfig.setCoefficientVersion(1);
+            ldenConfig.setCoefficientVersion("cnossos2020");
             LDENPointNoiseMapFactory ldenPointNoiseMapFactory = new LDENPointNoiseMapFactory(connection, ldenConfig);
             // Use train directivity functions instead of discrete directivity
             ldenPointNoiseMapFactory.insertTrainDirectivity();
@@ -314,7 +314,7 @@ public class PointNoiseMapTest {
             pointNoiseMap.setHeightField("HEIGHT");
 
             LDENConfig ldenConfig = new LDENConfig(LDENConfig.INPUT_MODE.INPUT_MODE_LW_DEN);
-            ldenConfig.setCoefficientVersion(1);
+            ldenConfig.setCoefficientVersion("cnossos2020");
             ldenConfig.setKeepAbsorption(false);
             ldenConfig.setExportRaysMethod(LDENConfig.ExportRaysMethods.TO_MEMORY);
             LDENPointNoiseMapFactory ldenPointNoiseMapFactory = new LDENPointNoiseMapFactory(connection, ldenConfig);
@@ -400,7 +400,7 @@ public class PointNoiseMapTest {
             pointNoiseMap.setHeightField("HEIGHT");
 
             LDENConfig ldenConfig = new LDENConfig(LDENConfig.INPUT_MODE.INPUT_MODE_LW_DEN);
-            ldenConfig.setCoefficientVersion(1);
+            ldenConfig.setCoefficientVersion("cnossos2020");
             ldenConfig.setKeepAbsorption(false);
             ldenConfig.setExportRaysMethod(LDENConfig.ExportRaysMethods.TO_MEMORY);
             LDENPointNoiseMapFactory ldenPointNoiseMapFactory = new LDENPointNoiseMapFactory(connection, ldenConfig);

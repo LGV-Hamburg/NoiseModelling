@@ -69,7 +69,7 @@ public class LDENPointNoiseMapFactoryTest {
         ldenConfig.setPropagationProcessPathData(LDENConfig.TIME_PERIOD.DAY, new PropagationProcessPathData());
         ldenConfig.setPropagationProcessPathData(LDENConfig.TIME_PERIOD.EVENING, new PropagationProcessPathData());
         ldenConfig.setPropagationProcessPathData(LDENConfig.TIME_PERIOD.NIGHT, new PropagationProcessPathData());
-        ldenConfig.setCoefficientVersion(1);
+        ldenConfig.setCoefficientVersion("cnossos2020");
         LDENPropagationProcessData process = new LDENPropagationProcessData(null, ldenConfig);
         try(Statement st = connection.createStatement()) {
             double lv_speed = 70;

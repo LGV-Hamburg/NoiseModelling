@@ -45,7 +45,7 @@ public class RoadVehicleCnossosvar {
         final int freqParam = parameters.getFrequency();
         final double Temperature = parameters.getTemperature();
         final String roadSurface = parameters.getRoadSurface();
-        final int coeffVer = parameters.getFileVersion();
+        final String coeffVer = parameters.getCoefficientVersion();
 
         // ///////////////////////
         // Noise road/tire CNOSSOS

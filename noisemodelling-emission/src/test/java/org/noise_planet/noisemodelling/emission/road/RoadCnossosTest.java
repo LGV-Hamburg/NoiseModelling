@@ -51,7 +51,7 @@ public class RoadCnossosTest {
         int Junc_type = 1;
         RoadCnossosParameters rsParameters = new RoadCnossosParameters(lv_speed, mv_speed, hgv_speed, wav_speed, wbv_speed, lv_per_hour, mv_per_hour, hgv_per_hour, wav_per_hour, wbv_per_hour, FreqParam, Temperature, RoadSurface, Ts_stud, Pm_stud, Junc_dist, Junc_type);
         rsParameters.setSlopePercentage_without_limit(10);
-        rsParameters.setFileVersion(1);
+        rsParameters.setCoefficientVersion("cnossos2020");
         assertEquals(77.6711, RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
     }
 
@@ -77,7 +77,7 @@ public class RoadCnossosTest {
         int Junc_type = 1;
         RoadCnossosParameters rsParameters = new RoadCnossosParameters(lv_speed, mv_speed, hgv_speed, wav_speed, wbv_speed, lv_per_hour, mv_per_hour, hgv_per_hour, wav_per_hour, wbv_per_hour, FreqParam, Temperature, RoadSurface, Ts_stud, Pm_stud, Junc_dist, Junc_type);
         rsParameters.setSlopePercentage_without_limit(-5);
-        rsParameters.setFileVersion(1);
+        rsParameters.setCoefficientVersion("cnossos2020");
         assertEquals(79.6814, RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
     }
 
@@ -104,7 +104,7 @@ public class RoadCnossosTest {
 
         RoadCnossosParameters rsParameters = new RoadCnossosParameters(lv_speed, mv_speed, hgv_speed, wav_speed, wbv_speed, lv_per_hour, mv_per_hour, hgv_per_hour, wav_per_hour, wbv_per_hour, FreqParam, Temperature, RoadSurface, Ts_stud, Pm_stud, Junc_dist, Junc_type);
         rsParameters.setSlopePercentage_without_limit(-7);
-        rsParameters.setFileVersion(1);
+        rsParameters.setCoefficientVersion("cnossos2020");
         assertEquals(58.8222, RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
 
     }
@@ -131,7 +131,7 @@ public class RoadCnossosTest {
         int Junc_type = 1;
         RoadCnossosParameters rsParameters = new RoadCnossosParameters(lv_speed, mv_speed, hgv_speed, wav_speed, wbv_speed, lv_per_hour, mv_per_hour, hgv_per_hour, wav_per_hour, wbv_per_hour, FreqParam, Temperature, RoadSurface, Ts_stud, Pm_stud, Junc_dist, Junc_type);
         rsParameters.setSlopePercentage_without_limit(-7);
-        rsParameters.setFileVersion(1);
+        rsParameters.setCoefficientVersion("cnossos2020");
         assertEquals(82.785, RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
     }
 
@@ -157,7 +157,7 @@ public class RoadCnossosTest {
         int Junc_type = 2;
         RoadCnossosParameters rsParameters = new RoadCnossosParameters(lv_speed, mv_speed, hgv_speed, wav_speed, wbv_speed, lv_per_hour, mv_per_hour, hgv_per_hour, wav_per_hour, wbv_per_hour, FreqParam, Temperature, RoadSurface, Ts_stud, Pm_stud, Junc_dist, Junc_type);
         rsParameters.setSlopePercentage_without_limit(10);
-        rsParameters.setFileVersion(1);
+        rsParameters.setCoefficientVersion("cnossos2020");
         assertEquals(85.4991, RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
     }
 
@@ -165,7 +165,7 @@ public class RoadCnossosTest {
     public void TestTableIII() {
         int Freq = 125;
         String VehCat = "2";
-        final Double coeff = RoadCnossos.getCoeff("ar", Freq, VehCat, 1);
+        final Double coeff = RoadCnossos.getCoeff("ar", Freq, VehCat, "cnossos2020");
         assertEquals(88.7, coeff, EPSILON_TEST1);
 
     }
@@ -191,7 +191,7 @@ public class RoadCnossosTest {
                     "4a".equals(vehCat) ? vehiclePerHour : 0, "4b".equals(vehCat) ? vehiclePerHour : 0,
                     FREQUENCIES[idFreq], temperature, surfRef, tsStud, pmStud, juncDist, juncType);
             rsParameters.setSlopePercentage(slope);
-            rsParameters.setFileVersion(1);
+            rsParameters.setCoefficientVersion("cnossos2020");
             assertEquals(String.format("%d Hz", FREQUENCIES[idFreq]), expectedValues[idFreq], RoadCnossos.evaluate(rsParameters), EPSILON_TEST1);
         }
     }
@@ -217,7 +217,7 @@ public class RoadCnossosTest {
                     FREQUENCIES[idFreq], temperature, surfRef, tsStud, pmStud, juncDist, juncType);
             rsParameters.setSlopePercentage(slope);
             rsParameters.setWay(3);
-            rsParameters.setFileVersion(1);
+            rsParameters.setCoefficientVersion("cnossos2020");
             double result = RoadCnossos.evaluate(rsParameters);
             assertEquals(String.format("%d Hz", FREQUENCIES[idFreq]), expectedValues[idFreq], result, EPSILON_TEST1);
         }
@@ -244,7 +244,7 @@ public class RoadCnossosTest {
                     FREQUENCIES[idFreq], temperature, surfRef, tsStud, pmStud, juncDist, juncType);
             rsParameters.setSlopePercentage(slope);
             rsParameters.setWay(3);
-            rsParameters.setFileVersion(1);
+            rsParameters.setCoefficientVersion("cnossos2020");
             RoadCnossos.evaluate(rsParameters);
 
         }

@@ -41,7 +41,7 @@ public class LDENConfig {
 
     // Cnossos revisions have multiple coefficients for road emission formulae
     // this parameter will be removed when the final version of Cnossos will be published
-    int coefficientVersion = 2;
+    String coefficientVersion = "cnossos2020"; // e.g. "cnossos2015", "cnossos2020", "hh"
 
     // Process status
     boolean exitWhenDone = false;
@@ -227,11 +227,11 @@ public class LDENConfig {
      * @param coefficientVersion Cnossos revisions have multiple coefficients for road emission formulae this parameter
      *                          will be removed when the final version of Cnossos will be published
      */
-    public void setCoefficientVersion(int coefficientVersion) {
+    public void setCoefficientVersion(String coefficientVersion) {
         this.coefficientVersion = coefficientVersion;
     }
 
-    public int getCoefficientVersion() {
+    public String getCoefficientVersion() {
         return coefficientVersion;
     }
 

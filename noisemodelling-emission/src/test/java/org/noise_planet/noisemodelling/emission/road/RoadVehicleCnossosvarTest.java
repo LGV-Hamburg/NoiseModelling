@@ -43,7 +43,7 @@ public class RoadVehicleCnossosvarTest {
 
         RoadVehicleCnossosvarParameters rsParameters = new RoadVehicleCnossosvarParameters(speed, acc, veh_type, acc_type, Stud, LwStd, VehId);
         rsParameters.setSlopePercentage(0);
-        rsParameters.setFileVersion(2);
+        rsParameters.setCoefficientVersion("cnossos2020");
         rsParameters.setFrequency(FreqParam);
         rsParameters.setTemperature(Temperature);
         rsParameters.setRoadSurface(RoadSurface);

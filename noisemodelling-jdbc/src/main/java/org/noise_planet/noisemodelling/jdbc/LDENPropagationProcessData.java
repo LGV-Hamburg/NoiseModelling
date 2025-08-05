@@ -228,7 +228,8 @@ public class LDENPropagationProcessData extends CnossosPropagationData {
                     roadSurface, tsStud, pmStud, junctionDistance, junctionType);
             rsParametersCnossos.setSlopePercentage(slope);
             rsParametersCnossos.setWay(way);
-            rsParametersCnossos.setFileVersion(ldenConfig.coefficientVersion);
+            // Use setCoefficientVersion for clarity
+            rsParametersCnossos.setCoefficientVersion(ldenConfig.coefficientVersion);
             lvl[idFreq++] = RoadCnossos.evaluate(rsParametersCnossos);
         }
         return lvl;

@@ -46,7 +46,7 @@ public class RoadCnossosParameters {
     private double speedWav; // cat 4a vehicle speed  (in km/h)
     private double speedWbv; // cat 4b vehicle speed  (in km/h)
 
-    private int fileVersion = 2; // default coefficient version (1 = 2015, 2 = 2020)
+    private String coefficientVersion = "cnossos2020"; // default: "cnossos2015", "cnossos2020", or "hh"
 
     /**
      * Utility class
@@ -221,17 +221,18 @@ public class RoadCnossosParameters {
                 + type + ",subtype=" + subtype + ").");
     }
 
-    public int getFileVersion() {
-        return this.fileVersion;
+    /**
+     * Get the coefficient version string (e.g. "cnossos2015", "cnossos2020", "hh")
+     */
+    public String getCoefficientVersion() {
+        return this.coefficientVersion;
     }
 
     /**
-     * set Coefficient version  (1 = 2015, 2 = 2020)
-     *
-     * @param fileVersion
+     * Set the coefficient version string (e.g. "cnossos2015", "cnossos2020", "hh")
      */
-    public void setFileVersion(int fileVersion) {
-        this.fileVersion = fileVersion;
+    public void setCoefficientVersion(String coefficientVersion) {
+        this.coefficientVersion = coefficientVersion;
     }
 
     /**
